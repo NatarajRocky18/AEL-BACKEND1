@@ -1,24 +1,25 @@
 /* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { EntitiesHandlerController } from './controller/entitieshandler/entitieshandler.controller';
-import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import { join } from 'path';
-
- const envFile = ConfigModule.forRoot({
-  envFilePath: join(__dirname,'../.env'),
-  isGlobal: true,
-})
+import { MongooseModule } from '@nestjs/mongoose';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { FormDataModule } from './report_screen_api/form_data_module';
+import { DashBoardModule } from './dashboard_screen_api/dashboard_module';
 
 @Module({
-  imports:[envFile, DatabaseModule],
-  controllers: [AppController, EntitiesHandlerController],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: join(__dirname, '../.env'),
+      isGlobal: true,
+    }),
+    MongooseModule.forRoot(process.env.MONGO_URL),
+    FormDataModule,
+    DashBoardModule
+    
+  ],
+  controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-
-
-  
-}
+export class AppModule { }

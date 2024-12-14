@@ -16,21 +16,17 @@ export class DatabaseProvider {
         try {
             await this.client.connect();
             console.log('Successfully connected to MongoDB');
-            const dbName = "ael";
+            const dbName = "test";
             this.db = this.client.db(dbName);
         } catch (error) {
             console.error('MongoDB connection failed:', error);
         }
     }
 
-    private getDbNameFromUri(uri: string): string {
-        const match = uri.match(/\/([^/?]+)(\?|$)/);
-        return match ? match[1] : '';
-    }
-
-    getClient(): MongoClient {
-        return this.client;
-    }
+    // private getDbNameFromUri(uri: string): string {
+    //     const match = uri.match(/\/([^/?]+)(\?|$)/);
+    //     return match ? match[1] : '';
+    // }
 
     public getDatabase(): Db {
         return this.db;
